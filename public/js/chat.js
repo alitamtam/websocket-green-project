@@ -1,4 +1,4 @@
-// Par défaut la librairie se connecte sur le même serveur qque le serveur HTTP (même domaine et même port)
+// Par défaut la librairie se connecte sur le même serveur que le serveur HTTP (même domaine et même port)
 const socket = io();
 
 const form = document.getElementById('form');
