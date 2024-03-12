@@ -3,6 +3,7 @@ const socket = io();
 
 const form = document.getElementById('form');
 const input = document.getElementById('input');
+const room = document.getElementById('room');
 const messages = document.getElementById('messages');
 
 form.addEventListener('submit', (e) => {
@@ -16,40 +17,48 @@ form.addEventListener('submit', (e) => {
 socket.on('empty chat', () => {
   messages.textContent = '';
 });
+socket.on('room join', (roomName) => {
+  room.textContent = roomName;
+});
 
-socket.on('server message', (msg) => {
+function generateChatRow(msg, sender = 'user') {
+  let { user } = msg;
+  const { timestamp, message } = msg;
+
   const row = document.createElement('li');
 
-  const username = document.createElement('span');
-  username.textContent = 'La mère Michelle';
-  username.classList.add('username');
+  if (sender === 'server') {
+    user = 'La mère Michelle';
+    row.classList.add('server');
+  }
+  const timestampSpan = document.createElement('span');
+  timestampSpan.textContent = dayjs(timestamp).locale('fr').format('HH:mm');
+  timestampSpan.classList.add('timestamp');
 
-  const message = document.createElement('span');
-  message.textContent = msg;
-  message.classList.add('message');
+  const usernameSpan = document.createElement('span');
+  usernameSpan.textContent = user;
+  usernameSpan.classList.add('username');
 
-  row.classList.add('server');
+  const messageSpan = document.createElement('span');
+  messageSpan.textContent = message;
+  messageSpan.classList.add('message');
 
-  row.appendChild(username);
-  row.appendChild(message);
+  row.appendChild(timestampSpan);
+  row.appendChild(usernameSpan);
+  row.appendChild(messageSpan);
+
+  return row;
+}
+
+socket.on('server message', (msg) => {
+  const row = generateChatRow(msg, 'server');
   messages.appendChild(row);
 
   window.scrollTo(0, document.body.scrollHeight);
 });
 
 socket.on('chat message', (msg) => {
-  const row = document.createElement('li');
-
-  const username = document.createElement('span');
-  username.textContent = msg.user;
-  username.classList.add('username');
-
-  const message = document.createElement('span');
-  message.textContent = msg.message;
-  message.classList.add('message');
-
-  row.appendChild(username);
-  row.appendChild(message);
+  const row = generateChatRow(msg);
   messages.appendChild(row);
 
   window.scrollTo(0, document.body.scrollHeight);

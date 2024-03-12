@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Green Project</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
     <link rel="stylesheet" href="css/chat.css">
     <script defer src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/localizedFormat.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/fr.min.js"></script>
     <script defer src="js/chat.js"></script>
 </head>
 
 <body>
     <ul id="messages"></ul>
     <form id="form" action="">
-        <input id="input" autocomplete="off" /><button>Send</button>
+        <fieldset role="group">
+            <button type="button" disabled id="room">Général</button>
+            <input id="input" autocomplete="off" />
+            <button>Send</button>
+        </fieldset>
     </form>
 </body>
 
